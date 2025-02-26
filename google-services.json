@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "226601983329",
+    "project_id": "advik-marketing",
+    "storage_bucket": "advik-marketing.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226601983329:android:dbfe2ff69ec9dfbcbdf920",
+        "android_client_info": {
+          "package_name": "com.advikmarketing.advikmarketing"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOL7bemD5Y-sEZd-U7f0s_cDdfWuhPmAo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
