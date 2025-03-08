@@ -76,7 +76,9 @@ android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
-
+    dexOptions {
+      jumboMode = true
+    }
     namespace "com.advikmarketing"
     defaultConfig {
         applicationId "com.advikmarketing"
@@ -125,3 +127,5 @@ dependencies {
         implementation jscFlavor
     }
 }
+
+apply plugin: 'com.google.gms.google-services'
