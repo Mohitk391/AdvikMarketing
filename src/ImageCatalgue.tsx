@@ -11,6 +11,7 @@ interface PageData {
   size: number[];
   packing: number[];
   rate: number[];
+  pageNumber: Number,
   imageUrl: string; // Add imageUrl field to hold the image URL
 }
 
@@ -31,14 +32,15 @@ const ImageCatalogue = () => {
           .collection('models')
           .get();
 
-        for (const [index, doc] of snapshot.docs.entries()) {
+        for (const [, doc] of snapshot.docs.entries()) {
           const data = doc.data();
           const pageData: PageData = {
             id: doc.id,
             size: data.size ?? [],
             packing: data.packing ?? [],
             rate: data.rate ?? [],
-            imageUrl: await getImageUrl(index), // Fetch image URL using page number
+            pageNumber : data.pageNumber,
+            imageUrl: await getImageUrl(data.pageNumber), // Fetch image URL using page number
           };
 
           dataList.push(pageData);
@@ -52,7 +54,7 @@ const ImageCatalogue = () => {
     };
 
     const getImageUrl = async (pageIndex: number) => {
-      const pageNumber = (pageIndex + 6).toString().padStart(3, '0'); // Starting from 006
+      const pageNumber = (pageIndex + 5).toString().padStart(3, '0'); // Starting from 006
       console.log(pageNumber);
       const imageRef = storage().ref(`catalogs/poins/${pageNumber}.jpg`); // Adjust the path as needed
       console.log(await imageRef.getDownloadURL());
@@ -68,7 +70,7 @@ const ImageCatalogue = () => {
     );
 
     if (index !== -1 && scrollViewRef.current) {
-      scrollViewRef.current.scrollTo({ y: index * 500, animated: true }); // Assuming each item height is 600
+      scrollViewRef.current.scrollTo({ y: index * 600, animated: true }); // Assuming each item height is 600
     }
   };
 
@@ -129,14 +131,14 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 16,
+    marginBottom: 8,
     paddingHorizontal: 8,
   },
   imageContainer: {
     marginBottom: 20,
   },
   image: {
-    width: 400,
+    width: '100%',
     height: 500,
     position: 'relative',
   },
