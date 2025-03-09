@@ -1,30 +1,22 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
-import ImageCatalogue from './ImageCatalgue';
-// import Pdf from 'react-native-pdf';
-// import TableComponent from './TableComponent';
-
-//const data = { quantity: '10', packing: 'Box', rate: '$5' }; // Data for page 1
-  // Data for page 2
-  //Add more data for additional pages as neede// State to track current page
+import { View, Text, Button } from 'react-native';
 
 
+const Homepage: React.FC<{ navigation: any }> = ({ navigation }) => {
 
+  return (
+    <View>
+      <Text>Welcome to the Catalogue</Text>
+      <Button
+        title="Go to Poins Catalogue"
+        onPress={() => navigation.navigate('PoinsCatalogue')}
+      />
+      <Button
+        title="Go to Upgrade Catalogue"
+        onPress={() => navigation.navigate('UpgradeCatalogue')}
+      />
+    </View>
+  );
+};
 
-
-
-function Homepage () {
-    return (
-      <SafeAreaView style={styles.container}>
-      <ImageCatalogue />
-    </SafeAreaView>
-    );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  });
-
-  export { Homepage };
+export default Homepage;
