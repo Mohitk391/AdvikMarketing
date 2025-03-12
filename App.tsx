@@ -20,14 +20,14 @@ function App(): React.JSX.Element {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
         name="Home"
         component={Homepage}
-        options={{ title: 'Welcome' }}
+        options={{ title: 'Advik Marketing' }}
         />
-        <Stack.Screen name="PoinsCatalogue" component={PoinsCatalogue} />
-        <Stack.Screen name="UpgradeCatalogue" component={UpgradeCatalogue} />
+        <Stack.Screen name="PoinsCatalogue" component={PoinsCatalogue} options={{ title: 'Poins' }} />
+        <Stack.Screen name="UpgradeCatalogue" component={UpgradeCatalogue} options={{ title: 'Upgrade' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

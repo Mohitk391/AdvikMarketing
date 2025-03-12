@@ -193,4 +193,42 @@ const [currentPage, setCurrentPage] = React.useState(0);
     left: 50,
     right: 0,
   },
+
+
+
+  <ScrollView contentContainerStyle={styles.contentContainer} ref={scrollViewRef}>
+  {pageDataList.map((pageData, index) => (
+    <View key={index} style={styles.imageContainer}>
+      <Image
+        source={{ uri: pageData.imageUrl }}
+        style={styles.image}
+      />
+      <View
+        style={{
+          ...styles.overlay,
+          top: pageData.isPositionedChanged ? pageData.top : styles.overlay.top,
+          left: pageData.isPositionedChanged ? pageData.left : styles.overlay.left,
+        }}
+      >
+        <Svg height="500" width={width}>
+          <Rect x="0" y="0" width={width / 2.31} height="15" fill="transparent" stroke="black" />
+          <Text x="10" y="12.5" fill="black">Size</Text>
+          <Text x="55" y="12.5" fill="black">Packing</Text>
+          <Text x="130" y="12.5" fill="black">Rate</Text>
+          {pageData.size?.map((size, idx) => (
+            <React.Fragment key={idx}>
+              <Rect x="0" y={(idx + 1) * 15} width="50" height="15" fill="white" stroke="black" />
+              <Text x="13" y={(idx + 1) * 15 + 12.5} fill="black">{size}</Text>
+              <Rect x="50" y={(idx + 1) * 15} width="60" height="15" fill="white" stroke="black" />
+              <Text x="70" y={(idx + 1) * 15 + 12.5} fill="black">{pageData.packing[idx]}</Text>
+              <Rect x="110" y={(idx + 1) * 15} width="60" height="15" fill="white" stroke="black" />
+              <Text x="130" y={(idx + 1) * 15 + 12.5} fill="black">{pageData.rate[idx]}</Text>
+            </React.Fragment>
+          ))}
+        </Svg>
+      </View>
+    </View>
+  ))}
+</ScrollView>
+
       */

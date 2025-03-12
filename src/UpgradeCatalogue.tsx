@@ -11,8 +11,12 @@ interface PageData {
   size: number[];
   packing: number[];
   rate: number[];
-  pageNumber: Number,
+  pageNumber: number;
   imageUrl: string;
+  isPvd: boolean; // New property
+  pvdRate?: number[];
+  isPos: boolean; // New property
+  position?: number[]; // New property, optional
 }
 
 const UpgradeCatalogue = () => {
@@ -34,6 +38,10 @@ const UpgradeCatalogue = () => {
         for (const [, doc] of snapshot.docs.entries()) {
           const data = doc.data();
           const pageData: PageData = {
+            isPvd: data.isPvd ?? false, // New property initialization
+            pvdRate: data.isPvd ? data.pvdRate ?? [] : undefined,  // Conditional property initialization
+            isPos: data.isPos ?? false, // New property initialization
+            position: data.isPos ? data.position ?? [] : undefined, // Conditional property initialization
             id: doc.id,
             size: data.size ?? [],
             packing: data.packing ?? [],
@@ -48,6 +56,7 @@ const UpgradeCatalogue = () => {
         setPageDataList(dataList);
         setLoading(false);
       } catch (error) {
+        console.error('Error fetching data:', error);
         setLoading(false);
       }
     };
@@ -63,11 +72,11 @@ const UpgradeCatalogue = () => {
 
   const handleSearch = () => {
     const index = pageDataList.findIndex(
-      pageData => pageData.id.includes(searchQuery) || String(Number(pageData.id) + 5) === searchQuery
+      pageData => pageData.id.includes(searchQuery) || String(Number(pageData.pageNumber)) === searchQuery
     );
 
     if (index !== -1 && scrollViewRef.current) {
-      scrollViewRef.current.scrollTo({ y: index * 600, animated: true });
+      scrollViewRef.current.scrollTo({ y: index * 600, animated: true }); // Assuming each item height is 600
     }
   };
 
@@ -91,22 +100,32 @@ const UpgradeCatalogue = () => {
               source={{ uri: pageData.imageUrl }}
               style={styles.image}
             />
-            <View style={styles.overlay}>
+            <View style={{...styles.overlay, top : pageData.isPos ? pageData.position?.[0] : styles.overlay.top, left : pageData.isPos ? pageData.position?.[1] : styles.overlay.left}}>
               <Svg height="500" width={width}>
-                <Rect x="0" y="0" width={width / 2.31} height="15" fill="transparent" stroke="black" />
+                <Rect x="0" y="0" width={pageData.isPvd ? (width / 2.31) : (width / 3.02)} height="15" fill="transparent" stroke="black" />
                 <Text x="10" y="12.5" fill="black">Size</Text>
-                <Text x="55" y="12.5" fill="black">Packing</Text>
-                <Text x="130" y="12.5" fill="black">Rate</Text>
-                {pageData.size?.map((size, idx) => (
-                  <React.Fragment key={idx}>
-                    <Rect x="0" y={(idx + 1) * 15} width="50" height="15" fill="white" stroke="black" />
-                    <Text x="13" y={(idx + 1) * 15 + 12.5} fill="black">{size}</Text>
-                    <Rect x="50" y={(idx + 1) * 15} width="60" height="15" fill="white" stroke="black" />
-                    <Text x="70" y={(idx + 1) * 15 + 12.5} fill="black">{pageData.packing[idx]}</Text>
-                    <Rect x="110" y={(idx + 1) * 15} width="60" height="15" fill="white" stroke="black" />
-                    <Text x="130" y={(idx + 1) * 15 + 12.5} fill="black">{pageData.rate[idx]}</Text>
-                  </React.Fragment>
-                ))}
+                <Text x="45" y="12.5" fill="black">Packing</Text>
+                <Text x="100" y="12.5" fill="black">Rate</Text>
+                { pageData.isPvd ? <Text x="140" y="12.5" fill="black">PVD</Text> : null}
+                {pageData.size?.map((size, idx) => {
+                  const pvdRateValue = pageData.isPvd ? pageData.pvdRate?.[idx] : null;
+                  return (
+                    <React.Fragment key={idx}>
+                      <Rect x="0" y={(idx + 1) * 15} width="50" height="15" fill="white" stroke="black" />
+                      <Text x="13" y={(idx + 1) * 15 + 12.5} fill="black">{size}</Text>
+                      <Rect x="40" y={(idx + 1) * 15} width="50" height="15" fill="white" stroke="black" />
+                      <Text x="55" y={(idx + 1) * 15 + 12.5} fill="black">{pageData.packing[idx]}</Text>
+                      <Rect x="90" y={(idx + 1) * 15} width="40" height="15" fill="white" stroke="black" />
+                      <Text x="100" y={(idx + 1) * 15 + 12.5} fill="black">{pageData.rate[idx]}</Text>
+                      {pvdRateValue !== null && (
+                        <React.Fragment>
+                          <Rect x="130" y={(idx + 1) * 15} width="40" height="15" fill="white" stroke="black" />
+                          <Text x="140" y={(idx + 1) * 15 + 12.5} fill="black">{pvdRateValue}</Text>
+                        </React.Fragment>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
               </Svg>
             </View>
           </View>
@@ -142,7 +161,7 @@ const styles = StyleSheet.create({
   overlay: {
     position: 'absolute',
     top: 385,
-    left: 150,
+    left: 120,
     right: 0,
     alignItems: 'center',
   },
