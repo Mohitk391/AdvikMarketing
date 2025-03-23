@@ -40,7 +40,10 @@ local.properties
 node_modules/
 npm-debug.log
 yarn-error.log
-
+android/app/src/main/res/drawable-mdpi
+android/app/src/main/res/drawable-xhdpi
+android/app/src/main/res/drawable-xxhdpi
+android/app/src/main/res/drawable-xxxhdpi
 # fastlane
 #
 # It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
