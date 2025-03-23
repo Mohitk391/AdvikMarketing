@@ -89,10 +89,16 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file('advik-marketing.keystore')
+            storePassword 'advik123'
+            keyAlias 'advik-key-alias'
+            keyPassword 'advik123'
+        }
+        release {
+            storeFile file('advik-marketing.keystore')
+            storePassword 'advik123'
+            keyAlias 'advik-key-alias'
+            keyPassword 'advik123'
         }
     }
     buildTypes {
@@ -105,6 +111,7 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     packagingOptions {

@@ -1,8 +1,30 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, StyleSheet, ScrollView, ActivityIndicator, Image, Dimensions, TextInput } from 'react-native';
+import { View, StyleSheet, ScrollView, ActivityIndicator, Dimensions, TextInput } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import Svg, { Rect, Text } from 'react-native-svg';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import FastImage from 'react-native-fast-image';
+
+const getImageUrl = async (pageIndex: number): Promise<string> => {
+  const pageNumber = (pageIndex + 5).toString().padStart(3, '0');
+
+  // Check if the URL is already cached
+  const cachedUrl = await AsyncStorage.getItem(`catalog-upgrade-${pageNumber}`);
+  if (cachedUrl) {
+    return cachedUrl;
+  }
+
+  // Fetch URL from Firebase Storage if not cached
+  const imageRef = storage().ref(`catalogs/upgrade/${pageNumber}.jpg`);
+  const url = await imageRef.getDownloadURL();
+
+  // Save the URL in AsyncStorage for future use
+  await AsyncStorage.setItem(`catalog-upgrade-${pageNumber}`, url);
+
+  return url;
+};
+
 
 const { width } = Dimensions.get('window');
 
@@ -61,11 +83,11 @@ const UpgradeCatalogue = () => {
       }
     };
 
-    const getImageUrl = async (pageIndex: number) => {
-      const pageNumber = (pageIndex + 5).toString().padStart(3, '0');
-      const imageRef = storage().ref(`catalogs/upgrade/${pageNumber}.jpg`);
-      return await imageRef.getDownloadURL();
-    };
+    // const getImageUrl = async (pageIndex: number) => {
+    //   const pageNumber = (pageIndex + 5).toString().padStart(3, '0');
+    //   const imageRef = storage().ref(`catalogs/upgrade/${pageNumber}.jpg`);
+    //   return await imageRef.getDownloadURL();
+    // };
 
     fetchData();
   }, []);
@@ -76,7 +98,7 @@ const UpgradeCatalogue = () => {
     );
 
     if (index !== -1 && scrollViewRef.current) {
-      scrollViewRef.current.scrollTo({ y: index * 600, animated: true }); // Assuming each item height is 600
+      scrollViewRef.current.scrollTo({ y: index * 520, animated: true }); // Assuming each item height is 600
     }
   };
 
@@ -96,9 +118,13 @@ const UpgradeCatalogue = () => {
       <ScrollView contentContainerStyle={styles.contentContainer} ref={scrollViewRef}>
         {pageDataList.map((pageData, index) => (
           <View key={index} style={styles.imageContainer}>
-            <Image
-              source={{ uri: pageData.imageUrl }}
+            <FastImage
               style={styles.image}
+              source={{
+                uri: pageData.imageUrl,
+                priority: FastImage.priority.high,
+              }}
+              resizeMode={FastImage.resizeMode.contain}
             />
             <View style={{...styles.overlay, top : pageData.isPos ? pageData.position?.[0] : styles.overlay.top, left : pageData.isPos ? pageData.position?.[1] : styles.overlay.left}}>
               <Svg height="500" width={width}>
