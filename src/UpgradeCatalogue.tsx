@@ -127,33 +127,33 @@ const UpgradeCatalogue = () => {
               resizeMode={FastImage.resizeMode.contain}
             />
             <View style={{...styles.overlay, top : pageData.isPos ? pageData.position?.[0] : styles.overlay.top, left : pageData.isPos ? pageData.position?.[1] : styles.overlay.left}}>
-              <Svg height="500" width={width}>
-                <Rect x="0" y="0" width={pageData.isPvd ? (width / 2.31) : (width / 3.02)} height="15" fill="transparent" stroke="black" />
-                <Text x="10" y="12.5" fill="black">Size</Text>
-                <Text x="45" y="12.5" fill="black">Packing</Text>
-                <Text x="100" y="12.5" fill="black">Rate</Text>
-                { pageData.isPvd ? <Text x="140" y="12.5" fill="black">PVD</Text> : null}
-                {pageData.size?.map((size, idx) => {
-                  const pvdRateValue = pageData.isPvd ? pageData.pvdRate?.[idx] : null;
-                  return (
-                    <React.Fragment key={idx}>
-                      <Rect x="0" y={(idx + 1) * 15} width="50" height="15" fill="white" stroke="black" />
-                      <Text x="13" y={(idx + 1) * 15 + 12.5} fill="black">{size}</Text>
-                      <Rect x="40" y={(idx + 1) * 15} width="50" height="15" fill="white" stroke="black" />
-                      <Text x="55" y={(idx + 1) * 15 + 12.5} fill="black">{pageData.packing[idx]}</Text>
-                      <Rect x="90" y={(idx + 1) * 15} width="40" height="15" fill="white" stroke="black" />
-                      <Text x="100" y={(idx + 1) * 15 + 12.5} fill="black">{pageData.rate[idx]}</Text>
-                      {pvdRateValue !== null && (
-                        <React.Fragment>
-                          <Rect x="130" y={(idx + 1) * 15} width="40" height="15" fill="white" stroke="black" />
-                          <Text x="140" y={(idx + 1) * 15 + 12.5} fill="black">{pvdRateValue}</Text>
-                        </React.Fragment>
-                      )}
-                    </React.Fragment>
-                  );
-                })}
-              </Svg>
-            </View>
+                <Svg height="500" width={width}>
+                  <Rect x="0" y="0" width={pageData.isPvd ? (width / 2.57) : (width / 3.43)} height="15" fill="transparent" stroke="gray"/>
+                  <Text x="10" y="12.5" fill="gray" fontSize={10}>Size</Text>
+                  <Text x="45" y="12.5" fill="gray" fontSize={10}>Pkg</Text>
+                  <Text x="77" y="12.5" fill="gray" fontSize={10}>Rate</Text>
+                  { pageData.isPvd ? <Text x="112" y="12.5" fill="gray" fontSize={10}>PVD</Text> : null}
+                  {pageData.size?.map((size, idx) => {
+                    const pvdRateValue = pageData.isPvd ? pageData.pvdRate?.[idx] : null;
+                    return (
+                      <React.Fragment key={idx}>
+                        <Rect x="0" y={(idx + 1) * 15} width="35" height="15" fill="white" stroke="gray" />
+                        <Text x="8" y={(idx + 1) * 15 + 12.5} fill="gray" fontSize={10}>{size}</Text>
+                        <Rect x="35" y={(idx + 1) * 15} width="35" height="15" fill="white" stroke="gray" />
+                        <Text x="45" y={(idx + 1) * 15 + 12.5} fill="gray" fontSize={10}>{pageData.packing[idx]}</Text>
+                        <Rect x="70" y={(idx + 1) * 15} width="35" height="15" fill="white" stroke="gray" />
+                        <Text x="77" y={(idx + 1) * 15 + 12.5} fill="gray" fontSize={10}>{pageData.rate[idx]}</Text>
+                        {pvdRateValue !== null && (
+                          <React.Fragment>
+                            <Rect x="105" y={(idx + 1) * 15} width="35" height="15" fill="white" stroke="gray" />
+                            <Text x="112" y={(idx + 1) * 15 + 12.5} fill="gray" fontSize={10}>{pvdRateValue}</Text>
+                          </React.Fragment>
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
+                </Svg>
+              </View>
           </View>
         ))}
       </ScrollView>
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     position: 'absolute',
-    top: 385,
+    top: 355,
     left: 120,
     right: 0,
     alignItems: 'center',
