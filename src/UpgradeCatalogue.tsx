@@ -23,12 +23,12 @@ const getImageUrl = async (pageIndex: number): Promise<string> => {
 
   // const resizedImage = await ImageResizer.createResizedImage(url, 800, 600, 'WEBP', 95);
 
-  const resizedImageUrl = url;
-  console.log(resizedImageUrl);
+  // const resizedImageUrl = url;
+  // console.log(resizedImageUrl);
   // Save the URL in AsyncStorage for future use
-  await AsyncStorage.setItem(`catalog-upgrade-${pageNumber}`, resizedImageUrl);
+  await AsyncStorage.setItem(`catalog-upgrade-${pageNumber}`, url);
 
-  return resizedImageUrl;
+  return url;
 };
 
 
